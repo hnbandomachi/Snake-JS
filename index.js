@@ -1,9 +1,15 @@
 var s, food, score = 0;
 
-function createFood() {
-    food = createVector(floor(random(30)), floor(random(30)), 20, 20);
+function createFood() {    
+    food = createVector(floor(random(30)), floor(random(30)));
     food.mult(20);
-};
+    console.log(s.tail)      
+    for (let i = 0; i < s.tail.length; i++) {
+        if (s.tail[i].x == food.x && s.tail[i].y == food.y) {
+            createFood();
+        };
+    };    
+}; 
 
 function keyPressed() {
     if (keyCode === UP_ARROW) {
@@ -26,18 +32,18 @@ function setup() {
 
 function draw() {
     background(1, 123, 123)
+    s.dead();    
+    s.update();
     if (s.eat(food)) {
         score++;
-        document.getElementById('score').innerHTML = 'Score: ' + score;
+        document.getElementById('score').innerHTML = 'Score: ' + score;        
         createFood();
     };
-    s.dead();
-    s.update();    
-    s.show();
+        
+    s.show();    
     fill(7, 255, 150);
     rect(food.x, food.y, 20, 20)
 };
-
 
 function Snake() {
     this.x = 0;
@@ -48,8 +54,8 @@ function Snake() {
     this.total = 0;
 
     this.eat = function (food) {
-        var d = dist(this.x, this.y, food.x, food.y)
-        if (d < 1) {
+        var d = dist(this.x, this.y, food.x, food.y)        
+        if (d == 0) {
             this.total++;
             return true;
         }
@@ -76,12 +82,12 @@ function Snake() {
     };
 
     this.update = function () {
-        for(let i = 0; i < this.tail.length - 1; i++) {
-            this.tail[i] = this.tail[i+1];
+        for (let i = 0; i < this.tail.length - 1; i++) {
+            this.tail[i] = this.tail[i + 1];
         };
 
         if (this.total >= 1) {
-            this.tail[this.total - 1] = createVector(this.x, this.y);            
+            this.tail[this.total - 1] = createVector(this.x, this.y,);            
         };
 
         this.x = this.x + this.xdir * 20;
@@ -94,7 +100,7 @@ function Snake() {
 
     this.show = function () {
         fill(255)
-        for (let i = 0; i < this.tail.length ; i++) {
+        for (let i = 0; i < this.tail.length; i++) {
             rect(this.tail[i].x, this.tail[i].y, 20, 20);
         };
 
@@ -102,7 +108,11 @@ function Snake() {
     };
 
     this.dir = function (x, y) {
-        this.xdir = x;
-        this.ydir = y;
+        if (this.xdir != -x) {
+            this.xdir = x;
+        };
+        if (this.ydir != -y) {
+            this.ydir = y;
+        };
     };
 };
