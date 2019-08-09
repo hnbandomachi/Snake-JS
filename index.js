@@ -3,9 +3,9 @@ var s, food, score = 0;
 function createFood() {    
     food = createVector(floor(random(30)), floor(random(30)));
     food.mult(20);
-    console.log(s.tail)      
     for (let i = 0; i < s.tail.length; i++) {
         if (s.tail[i].x == food.x && s.tail[i].y == food.y) {
+            console.log('trung...');
             createFood();
         };
     };    
