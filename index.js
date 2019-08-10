@@ -38,16 +38,15 @@ function draw() {
         score++;
         document.getElementById('score').innerHTML = 'Score: ' + score;        
         createFood();
-    };
-        
+    };        
     s.show();    
     fill(7, 255, 150);
     rect(food.x, food.y, 20, 20)
 };
 
 function Snake() {
-    this.x = 0;
-    this.y = 0;
+    this.x = 60;
+    this.y = 60;
     this.xdir = 0;
     this.ydir = 0;
     this.tail = [];
@@ -93,9 +92,12 @@ function Snake() {
         this.x = this.x + this.xdir * 20;
         this.y = this.y + this.ydir * 20;
 
-        this.x = constrain(this.x, 0, 580);
-        this.y = constrain(this.y, 0, 580);
-
+        // this.x = constrain(this.x, 0, 580);
+        // this.y = constrain(this.y, 0, 580);
+        if (this.x < 0) this.x = 580;
+        if (this.x > 580) this.x = 0;
+        if (this.y < 0) this.y = 580;
+        if (this.y > 580) this.y = 0;
     };
 
     this.show = function () {
